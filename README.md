@@ -6,7 +6,7 @@ Easily use [JSLint](http://jslint.com/) through the command line or node modules
 
 [JSLint](http://jslint.com/) is a program written by [Douglas Crockford](http://www.crockford.com/) that helps javascript developers write better code.
 
-This module is just a node wrapper for this program. It is not written or supported by the author of JSLint.
+This module is just a node wrapper for this program. It is not written, supported or endorsed by the author of JSLint.
 
 ## Features
 
@@ -81,4 +81,4 @@ See [CHANGELOG.md](CHANGELOG.md) for detailed change history
 
 ## License
 
-See [LICENSE] file.
+See [LICENSE](LICENSE) file.

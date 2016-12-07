@@ -10,7 +10,7 @@ This module is just a node wrapper for this program. It is not written, supporte
 
 ## Features
 
-* Automatically fetches the latest version of JSLint from github repository
+* Automatically fetches the latest version of JSLint from its [github repository](https://github.com/douglascrockford/JSLint)
 
 * Supports glob file patterns
 

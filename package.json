@@ -1,7 +1,7 @@
 {
   "name": "jslint-node",
   "description": "A node based helper for jslint",
-  "homepage": "https://github.com/nikoskalogridis/jslint-watch",
+  "homepage": "https://github.com/nikoskalogridis/jslint-node",
   "keywords": [
     "lint",
     "jslint",
@@ -31,20 +31,18 @@
   },
   "files": [
     "lib",
-    "bin",
-    "jslint.conf.example"
+    "bin"
   ],
   "repository": {
     "type": "git",
-    "url": "git://github.com/nikoskalogridis/jslint-watch.git"
+    "url": "git://github.com/nikoskalogridis/jslint-node.git"
   },
   "bugs": {
-    "url": "https://github.com/nikoskalogridis/jslint-watch/issues"
+    "url": "https://github.com/nikoskalogridis/jslint-node/issues"
   },
   "license": "MIT",
   "scripts": {
     "postinstall": "node bin/jslint.js --update",
-    "test": "make test",
-    "mypublish": "make prepublish; npm publish"
+    "run": "node bin/jslint.js"
   }
 }

@@ -44,7 +44,7 @@ Where options can be:
 
 If no local copy of the jslint.js file is found the program will attempt to download it from the github repository even without the `--update` flag
 
-*Notice* that there are no command line options that you can pass to the jslint function. You should add all the required flags, globals, etc. on each of the files that you want to jslint. It is the best place for this
+**Notice** that there are no command line options that you can pass to the jslint function. You should add all the required flags, globals, etc. on each of the files that you want to jslint. It is the best place for this
 
 Also note that it is your responsibility to call this script with an update flag regulary to benefit from the latest version of JSLint.
 

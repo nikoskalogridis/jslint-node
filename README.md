@@ -37,7 +37,7 @@ jslint [options] file_patterns...
 Where options can be:
 
 ```
-    --update - Updated the jslint.js file from github
+    --update - Update jslint.js file from https://raw.githubusercontent.com/douglascrockford/JSLint/master/jslint.js
     --version - print the version of this module and also the current edition of JSLint and exit
     --watch - watch for file changes and run jslint only those changed files. Script never ends
 ```

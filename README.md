@@ -1,10 +1,10 @@
 ## jslint-node
 
-Easily use [JSLint][http://jslint.com/] through the command line or node modules.
+Easily use [JSLint](http://jslint.com/) through the command line or node modules.
 
 ## Disclaimer
 
-[JSLint][http://jslint.com/] is a program written by [Douglas Crockford][http://www.crockford.com/] that helps javascript developers write better code.
+[JSLint](http://jslint.com/) is a program written by [Douglas Crockford](http://www.crockford.com/) that helps javascript developers write better code.
 
 This module is just a node wrapper for this program. It is not written or supported by the author of JSLint.
 
@@ -77,10 +77,8 @@ But then again you are executing code fetched from NPM with your account privile
 
 ## Changelog
 
-See [CHANGELOG.md] for detailed change history
+See [CHANGELOG.md](CHANGELOG.md) for detailed change history
 
 ## License
 
 See [LICENSE] file.
-
-[JSLint]: http://jslint.com/

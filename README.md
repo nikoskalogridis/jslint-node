@@ -40,11 +40,11 @@ Where options can be:
     -u, --update  - Update jslint.js file from 
                     https://raw.githubusercontent.com/douglascrockford/JSLint/master/jslint.js
     -v, --version - print the version of this module and also the current edition of JSLint and exit
-    -w, --watch   - watch for file changes and run jslint only those changed files. Script never ends
+    -w, --watch   - watch for file changes and run jslint only on changed files. Script never ends
     -q, --quiet   - produce output only on errors
     -t, --terse   - produce terse output
     -c, --color   - use ansi colors on terminal output (default is true), to disable enter -c=false, 
-                    --color=false --no-color
+                    --color=false or --no-color
 ```
 
 If no local copy of the jslint.js file is found the program will attempt to download it from the github repository even without the `--update` flag

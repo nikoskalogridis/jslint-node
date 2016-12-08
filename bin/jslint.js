@@ -6,7 +6,6 @@
 
 "use strict";
 
-//var optModule = require("./options");
 var nopt = require("nopt");
 var exit = require("exit");
 var glob = require("glob");
@@ -79,7 +78,7 @@ function jslintFiles(jslint, files) {
 function jslintFile(jslint, options, path) {
     return helpers.readFile(path)
         .then(function (program) {
-            var result = jslint(preprocessScript(program));
+            var result = jslint(preprocessScript(program), {fudge: true});
             reporter.report(path, result, options);
             return result;
         });
@@ -87,7 +86,6 @@ function jslintFile(jslint, options, path) {
 
 function runMain(options) {
     options = parseArgs(options || process.argv);
-    //var procOptions = optModule.getOptions(process.env.HOME, options);
     if (options.update) {
         console.log("Downloading JSLint from github...");
     }

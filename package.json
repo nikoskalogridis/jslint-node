@@ -10,7 +10,7 @@
     "code-quality",
     "static-analysis"
   ],
-  "version": "1.1.0",
+  "version": "1.1.1",
   "author": "Nikos Kalogridis",
   "bin": {
     "jslint": "./bin/jslint.js"

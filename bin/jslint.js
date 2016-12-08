@@ -114,7 +114,7 @@ function runMain(options) {
                 when
                     .settle(jslintFiles(lintFile, options.argv.remain))
                     .then(function (results) {
-                        if (_.find(results, _.negate(_.property("ok")))) {
+                        if (_.find(results.value, _.negate(_.property("ok")))) {
                             exit(1);
                         }
                         exit(0);

@@ -21,7 +21,7 @@ var packageData = require("../package.json");
 function commandOptions() {
     var commandOpts = {};
     var cliFlags = [
-        "color", "terse", "version", "filter", "quiet", "update", "watch"
+        "color", "terse", "version", "quiet", "update", "watch"
     ];
     var allFlags = cliFlags;
 
@@ -76,11 +76,11 @@ function jslintFiles(jslint, files) {
         .value();
 }
 
-function jslintFile(jslint, path) {
+function jslintFile(jslint, options, path) {
     return helpers.readFile(path)
         .then(function (program) {
             var result = jslint(preprocessScript(program));
-            reporter.report(path, result);
+            reporter.report(path, result, options);
             return result;
         });
 }
@@ -94,7 +94,7 @@ function runMain(options) {
     jslinter(options.update)
         .then(function (jslinter) {
             var jslint = jslinter.jslint;
-            var lintFile = _.partial(jslintFile, jslint);
+            var lintFile = _.partial(jslintFile, jslint, options);
             if (options.version) {
                 var edition = "JSLint: " + jslinter.edition;
                 var version = "jslint-watch: " + packageData.version;

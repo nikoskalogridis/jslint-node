@@ -12,7 +12,7 @@ var glob = require("glob");
 var watch = require("glob-watcher");
 var when = require("when");
 var _ = require("lodash");
-var reporter = require("./../lib/reporter");
+var report = require("./../lib/reporter");
 var jslinter = require("../lib");
 var helpers = require("../lib/helpers");
 var packageData = require("../package.json");
@@ -79,7 +79,7 @@ function jslintFile(jslint, options, path) {
     return helpers.readFile(path)
         .then(function (program) {
             var result = jslint(preprocessScript(program), options.jslint);
-            reporter.report(path, result, options);
+            report(path, result, options);
             return result;
         });
 }

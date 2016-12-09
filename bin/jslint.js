@@ -20,7 +20,7 @@ var packageData = require("../package.json");
 function commandOptions() {
     var commandOpts = {};
     var cliFlags = [
-        "color", "terse", "version", "quiet", "update", "watch"
+        "color", "terse", "version", "quiet", "update", "watch", "fudge", "devel"
     ];
     var allFlags = cliFlags;
 
@@ -78,7 +78,7 @@ function jslintFiles(jslint, files) {
 function jslintFile(jslint, options, path) {
     return helpers.readFile(path)
         .then(function (program) {
-            var result = jslint(preprocessScript(program), {fudge: true});
+            var result = jslint(preprocessScript(program), options.jslint);
             reporter.report(path, result, options);
             return result;
         });
@@ -86,13 +86,16 @@ function jslintFile(jslint, options, path) {
 
 function runMain(options) {
     options = parseArgs(options || process.argv);
+    options.jslint = {
+        fudge: options.fudge !== false,
+        devel: options.devel
+    };
     if (options.update) {
         console.log("Downloading JSLint from github...");
     }
     jslinter(options.update)
         .then(function (jslinter) {
-            var jslint = jslinter.jslint;
-            var lintFile = _.partial(jslintFile, jslint, options);
+            var lintFile = _.partial(jslintFile, jslinter.jslint, options);
             if (options.version) {
                 var edition = "JSLint: " + jslinter.edition;
                 var version = "jslint-watch: " + packageData.version;

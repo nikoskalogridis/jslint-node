@@ -14,7 +14,7 @@ This module is just a node wrapper for this program. It is not written, supporte
 
 * Supports glob file patterns
 
-* Programmatically call jslint from your node code
+* Use JSLint in your node modules
 
 * Supports watching files and lint them on change
 

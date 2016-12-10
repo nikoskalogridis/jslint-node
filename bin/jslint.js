@@ -7,46 +7,24 @@
 "use strict";
 
 var nopt = require("nopt");
-var exit = require("exit");
 var glob = require("glob");
 var watch = require("glob-watcher");
 var when = require("when");
 var _ = require("lodash");
-var report = require("./../lib/reporter");
+var report = require("../lib/reporter");
 var jslinter = require("../lib");
 var helpers = require("../lib/helpers");
 var packageData = require("../package.json");
-
-function commandOptions() {
-    var commandOpts = {};
-    var cliFlags = [
-        "color", "terse", "version", "quiet", "update", "watch", "fudge", "devel"
-    ];
-    var allFlags = cliFlags;
-
-    allFlags.forEach(function (option) {
-        commandOpts[option] = Boolean;
-    });
-
-    return commandOpts;
-}
-
-function die(why) {
-    var o = commandOptions();
-    console.warn(why);
-    console.warn("Usage: " + process.argv[1] +
-            " [--" + Object.keys(o).sort().join("] [--") +
-            "] [--] <scriptfile>...");
-    exit(1);
-}
-
-function parseArgs(argv) {
-    var args = nopt(commandOptions(), {}, argv);
-    if (args.filter === undefined) {
-        args.filter = true;
-    }
-    return args;
-}
+var commandOptions = {
+    color: Boolean,
+    terse: Boolean,
+    version: Boolean,
+    quiet: Boolean,
+    update: Boolean,
+    watch: Boolean,
+    fudge: Boolean,
+    devel: Boolean
+};
 
 function preprocessScript(script) {
     // Fix UTF8 with BOM
@@ -85,7 +63,7 @@ function jslintFile(jslint, options, path) {
 }
 
 function runMain(options) {
-    options = parseArgs(options || process.argv);
+    options = nopt(commandOptions, {}, options || process.argv);
     options.jslint = {
         fudge: options.fudge !== false,
         devel: options.devel
@@ -103,7 +81,11 @@ function runMain(options) {
                 return;
             }
             if (!options.argv.remain.length && !options.update) {
-                die("No files specified.");
+                console.log("No files specified.");
+                console.log("Usage: " + process.argv[1] +
+                        " [--" + Object.keys(commandOptions).sort().join("] [--") +
+                        "] [--] <scriptfile>...");
+                process.exit(1);
             }
             if (!options.argv.remain.length && options.update) {
                 return console.log("JSLint: " + jslinter.edition);
@@ -115,10 +97,8 @@ function runMain(options) {
                 when
                     .settle(jslintFiles(lintFile, options.argv.remain))
                     .then(function (results) {
-                        if (_.find(results.value, _.negate(_.property("ok")))) {
-                            exit(1);
-                        }
-                        exit(0);
+                        var notOk = _.negate(_.property("value.ok"));
+                        process.exit(_.filter(results, notOk).length);
                     });
             }
         })

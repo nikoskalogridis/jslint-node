@@ -1,5 +1,7 @@
 ## jslint-node
 
+[![Known Vulnerabilities](https://snyk.io/test/github/nikoskalogridis/jslint-node/badge.svg?targetFile=package.json)](https://snyk.io/test/github/nikoskalogridis/jslint-node?targetFile=package.json)
+
 Easily use [JSLint](http://jslint.com/) through the command line or node modules.
 
 ## Disclaimer

@@ -18,7 +18,7 @@
   "main": "./lib/index.js",
   "dependencies": {
     "glob": "^7.0.3",
-    "glob-watcher": "^3.0.0",
+    "glob-watcher": "^5.0.0",
     "lodash": "^4.17.2",
     "nopt": "~3.0.1",
     "when": "^3.7.7"

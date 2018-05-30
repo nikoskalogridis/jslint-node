@@ -82,9 +82,11 @@ function runMain(options) {
             }
             if (!options.argv.remain.length && !options.update) {
                 console.log("No files specified.");
-                console.log("Usage: " + process.argv[1] +
-                        " [--" + Object.keys(commandOptions).sort().join("] [--") +
-                        "] [--] <scriptfile>...");
+                console.log(
+                    "Usage: " + process.argv[1] +
+                    " [--" + Object.keys(commandOptions).sort().join("] [--") +
+                    "] [--] <scriptfile>..."
+                );
                 process.exit(1);
             }
             if (!options.argv.remain.length && options.update) {

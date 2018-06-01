@@ -19,8 +19,9 @@
   "dependencies": {
     "glob": "^7.0.3",
     "glob-watcher": "^5.0.0",
-    "lodash": "^4.17.2",
+    "lodash.debounce": "^4.0.8",
     "nopt": "~3.0.1",
+    "ramda": "^0.25.0",
     "when": "^3.7.7"
   },
   "devDependencies": {},

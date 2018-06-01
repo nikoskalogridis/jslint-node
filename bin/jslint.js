@@ -10,7 +10,8 @@ var nopt = require("nopt");
 var glob = require("glob");
 var watch = require("glob-watcher");
 var when = require("when");
-var _ = require("lodash");
+var R = require("ramda");
+var debounce = require("lodash.debounce");
 var report = require("../lib/reporter");
 var jslinter = require("../lib");
 var helpers = require("../lib/helpers");
@@ -44,14 +45,13 @@ function watchFiles(jslint, files) {
     watcher.on("add", jslint);
 }
 
-function jslintFiles(jslint, files) {
-    return _(files)
-        .map(_.ary(glob.sync, 1))
-        .concat()
-        .flatten()
-        .map(jslint)
-        .value();
-}
+var jslintFiles = R.curry(function (jslint, files) {
+    return R.pipe(
+        R.map(R.nAry(1, glob.sync)),
+        R.flatten,
+        R.map(jslint)
+    )(files);
+});
 
 function jslintFile(jslint, options, path) {
     return helpers.readFile(path)
@@ -73,11 +73,12 @@ function runMain(options) {
     }
     jslinter(options.update)
         .then(function (jslinter) {
-            var lintFile = _.partial(jslintFile, jslinter.jslint, options);
+            var lintFile = R.partial(jslintFile, [jslinter.jslint, options]);
             if (options.version) {
-                var edition = "JSLint: " + jslinter.edition;
-                var version = "jslint-watch: " + packageData.version;
-                console.log(version, edition);
+                console.log(
+                    "JSLint: " + jslinter.edition,
+                    "jslint-watch: " + packageData.version
+                );
                 return;
             }
             if (!options.argv.remain.length && !options.update) {
@@ -94,14 +95,17 @@ function runMain(options) {
             }
 
             if (options.watch) {
-                watchFiles(_.debounce(lintFile, 200), options.argv.remain);
+                watchFiles(debounce(lintFile, 200), options.argv.remain);
             } else {
                 when
                     .settle(jslintFiles(lintFile, options.argv.remain))
-                    .then(function (results) {
-                        var notOk = _.negate(_.property("value.ok"));
-                        process.exit(_.filter(results, notOk).length);
-                    });
+                    .then(
+                        R.pipe(
+                            R.reject(R.path(["value", "ok"])),
+                            R.length,
+                            process.exit.bind(process)
+                        )
+                    );
             }
         })
         .catch(console.log.bind(console));

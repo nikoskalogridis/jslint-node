@@ -54,12 +54,11 @@ var jslintFiles = R.curry(function (jslint, files) {
 });
 
 function jslintFile(jslint, options, path) {
-    return helpers.readFile(path)
-        .then(function (program) {
-            var result = jslint(preprocessScript(program), options.jslint);
-            report(path, result, options);
-            return result;
-        });
+    return helpers.readFile(path).then(function (program) {
+        var result = jslint(preprocessScript(program), options.jslint);
+        report(path, result, options);
+        return result;
+    });
 }
 
 function runMain(options) {
@@ -71,44 +70,39 @@ function runMain(options) {
     if (options.update) {
         console.log("Downloading JSLint from github...");
     }
-    jslinter(options.update)
-        .then(function (jslinter) {
-            var lintFile = R.partial(jslintFile, [jslinter.jslint, options]);
-            if (options.version) {
-                console.log(
-                    "JSLint: " + jslinter.edition,
-                    "jslint-watch: " + packageData.version
-                );
-                return;
-            }
-            if (!options.argv.remain.length && !options.update) {
-                console.log("No files specified.");
-                console.log(
-                    "Usage: " + process.argv[1] +
-                    " [--" + Object.keys(commandOptions).sort().join("] [--") +
-                    "] [--] <scriptfile>..."
-                );
-                process.exit(1);
-            }
-            if (!options.argv.remain.length && options.update) {
-                return console.log("JSLint: " + jslinter.edition);
-            }
-
-            if (options.watch) {
-                watchFiles(debounce(lintFile, 200), options.argv.remain);
-            } else {
-                when
-                    .settle(jslintFiles(lintFile, options.argv.remain))
-                    .then(
-                        R.pipe(
-                            R.reject(R.path(["value", "ok"])),
-                            R.length,
-                            process.exit.bind(process)
-                        )
-                    );
-            }
-        })
-        .catch(console.log.bind(console));
+    jslinter(options.update).then(function (jslinter) {
+        var lintFile = R.partial(jslintFile, [jslinter.jslint, options]);
+        if (options.version) {
+            console.log(
+                "JSLint: " + jslinter.edition,
+                "jslint-watch: " + packageData.version
+            );
+            return;
+        }
+        if (!options.argv.remain.length && !options.update) {
+            console.log("No files specified.");
+            console.log(
+                "Usage: " + process.argv[1] +
+                " [--" + Object.keys(commandOptions).sort().join("] [--") +
+                "] [--] <scriptfile>..."
+            );
+            process.exit(1);
+        }
+        if (!options.argv.remain.length && options.update) {
+            return console.log("JSLint: " + jslinter.edition);
+        }
+        if (options.watch) {
+            watchFiles(debounce(lintFile, 200), options.argv.remain);
+        } else {
+            when.settle(jslintFiles(lintFile, options.argv.remain)).then(
+                R.pipe(
+                    R.reject(R.path(["value", "ok"])),
+                    R.length,
+                    process.exit.bind(process)
+                )
+            );
+        }
+    }).catch(console.log.bind(console));
 }
 
 runMain();

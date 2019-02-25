@@ -32,8 +32,6 @@ function preprocessScript(script) {
     if (script.charCodeAt(0) === 0xFEFF) {
         script = script.slice(1);
     }
-    // remove shebang: replace it with empty line
-    script = script.replace(/^#!.*/, "");
 
     return script;
 }
